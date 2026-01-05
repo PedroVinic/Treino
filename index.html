@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+    
     <title>Meu Treino Pro</title>
     <style>
         :root { --blue: #007bff; --red: #dc3545; --green: #28a745; --dark: #0a0a0a; --card: #161616; }
@@ -87,12 +90,7 @@
 
         function watchVideo(name) {
             const query = encodeURIComponent(name + " execucao rapida academia");
-            
-            // INTENT GENÉRICO: Ele não força um aplicativo específico.
-            // Ele diz ao Android: "Abra um app que entenda links do YouTube".
             const genericIntent = `intent://www.youtube.com/results?search_query=${query}#Intent;scheme=https;end;`;
-
-            // Tenta disparar o Intent genérico
             window.location.href = genericIntent;
         }
 
