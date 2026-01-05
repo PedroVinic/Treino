@@ -3,141 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Meu Treino App</title>
+    <title>Treino Pro v3</title>
     <style>
-        :root { --blue: #007bff; --red: #dc3545; --green: #28a745; --dark: #0f0f0f; --card: #1e1e1e; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+        :root { --blue: #007bff; --red: #dc3545; --green: #28a745; --dark: #0a0a0a; --card: #161616; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--dark); color: #fff; padding-bottom: 100px; }
         
-        /* Header e Timer */
-        header { background: #1a1a1a; padding: 15px; text-align: center; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100; }
+        header { background: #111; padding: 15px; text-align: center; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
         #timer-display { font-size: 2.5rem; font-weight: bold; color: var(--green); margin: 5px 0; font-family: monospace; }
-        .timer-controls { display: flex; justify-content: center; gap: 10px; }
-        .timer-btn { background: #333; color: white; border: 1px solid #444; padding: 10px 20px; border-radius: 8px; font-weight: bold; }
+        .timer-btn { background: #222; color: white; border: 1px solid #333; padding: 10px 18px; border-radius: 8px; font-weight: bold; margin: 0 4px; }
 
-        /* Abas */
-        .tabs { position: fixed; bottom: 0; width: 100%; display: flex; background: #1a1a1a; border-top: 1px solid #333; height: 80px; z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-        .tab-btn { flex: 1; border: none; background: none; color: #666; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold; }
-        .tab-btn span { font-size: 1.5rem; margin-bottom: 4px; }
+        .tabs { position: fixed; bottom: 0; width: 100%; display: flex; background: #111; border-top: 1px solid #222; height: 75px; z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
+        .tab-btn { flex: 1; border: none; background: none; color: #555; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold; }
         .tab-btn.active { color: #fff; }
         .tab-btn.active.btn-a { border-top: 4px solid var(--blue); }
         .tab-btn.active.btn-b { border-top: 4px solid var(--red); }
         .tab-btn.active.btn-c { border-top: 4px solid var(--green); }
 
-        /* Conteúdo */
-        .tab-content { display: none; padding: 20px; animation: slideUp 0.3s ease; }
+        .tab-content { display: none; padding: 20px; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Card Exercício */
-        .card { background: var(--card); border-radius: 15px; padding: 18px; margin-bottom: 15px; border-left: 6px solid #444; transition: 0.2s; }
-        .card.completed { opacity: 0.3; filter: grayscale(1); }
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; }
-        .ex-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 4px; color: #fff; }
-        .ex-meta { font-size: 0.85rem; color: #aaa; }
+        .card { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; border-left: 5px solid #333; }
+        .card.completed { opacity: 0.2; filter: grayscale(1); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; }
+        .ex-title { font-size: 1rem; font-weight: bold; }
+        .ex-meta { font-size: 0.8rem; color: #888; }
         
-        .check-circle { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #555; display: flex; align-items: center; justify-content: center; font-weight: bold; color: transparent; }
-        .completed .check-circle { background: var(--green); border-color: var(--green); color: white; }
+        .check { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #444; display: flex; align-items: center; justify-content: center; color: transparent; }
+        .completed .check { background: var(--green); border-color: var(--green); color: white; }
 
-        .btn-video { display: flex; align-items: center; justify-content: center; background: #f00; color: white; text-decoration: none; padding: 12px; border-radius: 10px; margin-top: 15px; font-size: 0.9rem; font-weight: bold; }
-        
-        #treino-a .card { border-left-color: var(--blue); }
-        #treino-b .card { border-left-color: var(--red); }
-        #treino-c .card { border-left-color: var(--green); }
+        .btn-video { display: block; background: #cc0000; color: white; text-align: center; padding: 12px; border-radius: 8px; text-decoration: none; margin-top: 15px; font-size: 0.85rem; font-weight: bold; width: 100%; border: none; }
     </style>
 </head>
 <body>
 
     <header>
         <div id="timer-display">01:00</div>
-        <div class="timer-controls">
+        <div style="display: flex; justify-content: center; gap: 5px;">
             <button class="timer-btn" onclick="startTimer(60)">60s</button>
             <button class="timer-btn" onclick="startTimer(90)">90s</button>
-            <button class="timer-btn" onclick="resetTimer()" style="background:#444">Reset</button>
+            <button class="timer-btn" onclick="resetTimer()" style="color:#666">Reset</button>
         </div>
     </header>
 
     <div id="main-content">
-        <div id="treino-a" class="tab-content active">
-            <h2 style="color:var(--blue); margin-bottom:20px">🔵 Treino A</h2>
-            <div id="lista-a"></div>
-        </div>
-
-        <div id="treino-b" class="tab-content">
-            <h2 style="color:var(--red); margin-bottom:20px">🔴 Treino B</h2>
-            <div id="lista-b"></div>
-        </div>
-
-        <div id="treino-c" class="tab-content">
-            <h2 style="color:var(--green); margin-bottom:20px">🟢 Treino C</h2>
-            <div id="lista-c"></div>
-        </div>
+        <div id="treino-a" class="tab-content active"><h2 style="color:var(--blue); margin-bottom:15px">🔵 Treino A</h2><div id="list-a"></div></div>
+        <div id="treino-b" class="tab-content"><h2 style="color:var(--red); margin-bottom:15px">🔴 Treino B</h2><div id="list-b"></div></div>
+        <div id="treino-c" class="tab-content"><h2 style="color:var(--green); margin-bottom:15px">🟢 Treino C</h2><div id="list-c"></div></div>
     </div>
 
     <nav class="tabs">
-        <button class="tab-btn btn-a active" onclick="openTab('treino-a', this)"><span>💪</span>TREINO A</button>
-        <button class="tab-btn btn-b" onclick="openTab('treino-b', this)"><span>🔥</span>TREINO B</button>
-        <button class="tab-btn btn-c" onclick="openTab('treino-c', this)"><span>🦵</span>TREINO C</button>
+        <button class="tab-btn btn-a active" onclick="openTab('treino-a', this)"><span>A</span>PEITO/OMB/TRI</button>
+        <button class="tab-btn btn-b" onclick="openTab('treino-b', this)"><span>B</span>COSTAS/BICEPS</button>
+        <button class="tab-btn btn-c" onclick="openTab('treino-c', this)"><span>C</span>PERNAS</button>
     </nav>
 
     <script>
         const treinos = {
-            a: [
-                {n: "Supino Inclinado Máquina", s: "4x 12-15"},
-                {n: "Supino Reto Halteres", s: "3x 12-15"},
-                {n: "Crucifixo Máquina", s: "3x 12-15"},
-                {n: "Elevação Lateral Halteres", s: "3x 12-15"},
-                {n: "Elevação Frontal Halteres", s: "3x 12-15"},
-                {n: "Tríceps Corda Polia", s: "3x 12-15"},
-                {n: "Tríceps Testa Polia", s: "3x 12-15"}
-            ],
-            b: [
-                {n: "Puxada Alta", s: "4x 12-15"},
-                {n: "Remada Unilateral Halteres", s: "3x 12-15"},
-                {n: "Remada Baixa Triângulo", s: "3x 12-15"},
-                {n: "Pulldown Polia", s: "3x 12-15"},
-                {n: "Desenvolvimento Máquina", s: "3x 12-15"},
-                {n: "Bíceps Scott", s: "3x 12-15"},
-                {n: "Bíceps Martelo Corda", s: "3x 12-15"}
-            ],
-            c: [
-                {n: "Leg Press", s: "4x 12-15"},
-                {n: "Agachamento Smith", s: "3x 12-15"},
-                {n: "Cadeira Extensora", s: "3x 12-15"},
-                {n: "Cadeira Flexora", s: "3x 12-15"},
-                {n: "Mesa Flexora", s: "3x 12-15"},
-                {n: "Cadeira Adutora", s: "3x 12-15"},
-                {n: "Cadeira Abdutora", s: "3x 12-15"},
-                {n: "Panturrilha Máquina", s: "3x 15-20"}
-            ]
+            a: ["Supino Inclinado Máquina", "Supino Reto Halteres", "Crucifixo Máquina", "Elevação Lateral", "Elevação Frontal", "Tríceps Corda", "Tríceps Testa"],
+            b: ["Puxada Alta", "Remada Unilateral", "Remada Baixa Triângulo", "Pulldown Polia", "Desenvolvimento Máquina", "Bíceps Scott", "Bíceps Martelo"],
+            c: ["Leg Press", "Agachamento Smith", "Cadeira Extensora", "Cadeira Flexora", "Mesa Flexora", "Cadeira Adutora", "Cadeira Abdutora", "Panturrilha Máquina"]
         };
 
-        function renderTreinos() {
-            ['a', 'b', 'c'].forEach(t => {
-                const container = document.getElementById(`lista-${t}`);
+        function render() {
+            ['a','b','c'].forEach(t => {
+                const container = document.getElementById(`list-${t}`);
                 treinos[t].forEach(ex => {
-                    // LINK DEEP LINK PARA ABRIR APP
-                    const query = encodeURIComponent(ex.n + " execução correta shorts");
-                    const appLink = `vnd.youtube://www.youtube.com/results?search_query=${query}`;
-                    const webLink = `https://www.youtube.com/results?search_query=${query}`;
-                    
                     container.innerHTML += `
                         <div class="card">
                             <div class="card-header">
                                 <div class="exercise-info">
-                                    <div class="ex-title">${ex.n}</div>
-                                    <div class="ex-meta">${ex.s}</div>
+                                    <div class="ex-title">${ex}</div>
+                                    <div class="ex-meta">12-15 Repetições</div>
                                 </div>
-                                <div class="check-circle" onclick="toggle(this)">✓</div>
+                                <div class="check" onclick="toggle(this)">✓</div>
                             </div>
-                            <a href="${appLink}" onclick="window.location.href='${appLink}'; setTimeout(function(){ window.location.href='${webLink}'; }, 500); return false;" class="btn-video">▶ ABRIR VÍDEO NO APP</a>
+                            <button class="btn-video" onclick="watchVideo('${ex}')">▶ ABRIR NO YOUTUBE</button>
                         </div>
                     `;
                 });
             });
         }
 
-        function toggle(el) { el.closest('.card').classList.toggle('completed'); }
+        function watchVideo(name) {
+            const query = encodeURIComponent(name + " execucao rapida shorts");
+            const webUrl = `https://www.youtube.com/results?search_query=${query}`;
+            
+            // Detecta o sistema operacional
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+            if (isAndroid) {
+                // No Android, o Intent oficial impede de abrir duas vezes
+                window.location.href = `intent://www.youtube.com/results?search_query=${query}#Intent;package=com.google.android.youtube;scheme=https;S.browser_fallback_url=${encodeURIComponent(webUrl)};end;`;
+            } else if (isIOS) {
+                // No iOS, tentamos o protocolo direto
+                window.location.href = `youtube://www.youtube.com/results?search_query=${query}`;
+                // Fallback apenas se o app não responder após 1 segundo
+                setTimeout(() => { window.location.href = webUrl; }, 1000);
+            } else {
+                // PC ou outros
+                window.open(webUrl, '_blank');
+            }
+        }
 
         function openTab(id, btn) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -146,21 +115,27 @@
             btn.classList.add('active');
         }
 
-        let timerObj;
+        function toggle(el) { el.closest('.card').classList.toggle('completed'); }
+
+        let timer;
         function startTimer(s) {
-            clearInterval(timerObj);
+            clearInterval(timer);
             let time = s;
-            const disp = document.getElementById('timer-display');
-            timerObj = setInterval(() => {
-                let m = Math.floor(time/60), sec = time%60;
-                disp.innerText = `${m.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
-                if(time <= 0) { clearInterval(timerObj); disp.innerText = "TREINE!"; }
+            const d = document.getElementById('timer-display');
+            timer = setInterval(() => {
+                let min = Math.floor(time/60), sec = time%60;
+                d.innerText = `${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+                if(time <= 0) { 
+                    clearInterval(timer); 
+                    d.innerText = "TREINE!"; 
+                    if(navigator.vibrate) navigator.vibrate([200, 100, 200]); 
+                }
                 time--;
             }, 1000);
         }
-        function resetTimer() { clearInterval(timerObj); document.getElementById('timer-display').innerText = "01:00"; }
+        function resetTimer() { clearInterval(timer); document.getElementById('timer-display').innerText = "01:00"; }
 
-        renderTreinos();
+        render();
     </script>
 </body>
 </html>
