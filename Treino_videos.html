@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Meu Treino Completo</title>
+    <style>
+        :root { --blue: #007bff; --red: #dc3545; --green: #28a745; --dark: #121212; --card: #1f1f1f; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--dark); color: #eee; padding-bottom: 90px; }
+        
+        header { background: #1a1a1a; padding: 15px; text-align: center; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100; }
+        #timer-display { font-size: 2.2rem; font-weight: bold; color: var(--green); margin: 5px 0; font-variant-numeric: tabular-nums; }
+        .timer-btn { background: #333; color: white; border: 1px solid #444; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 0 4px; }
+
+        .tabs { position: fixed; bottom: 0; width: 100%; display: flex; background: #1a1a1a; border-top: 1px solid #333; height: 75px; z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
+        .tab-btn { flex: 1; border: none; background: none; color: #777; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+        .tab-btn span { font-size: 1.4rem; margin-bottom: 4px; }
+        .tab-btn.active { color: #fff; font-weight: bold; }
+        .tab-btn.active.btn-a { border-top: 4px solid var(--blue); }
+        .tab-btn.active.btn-b { border-top: 4px solid var(--red); }
+        .tab-btn.active.btn-c { border-top: 4px solid var(--green); }
+
+        .tab-content { display: none; padding: 20px; animation: fadeIn 0.2s ease-in; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 16px; border-left: 5px solid #444; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .card.completed { opacity: 0.4; filter: grayscale(1); border-left-color: #555 !important; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; }
+        .exercise-info h3 { font-size: 1.05rem; margin-bottom: 4px; color: #fff; }
+        .exercise-info p { font-size: 0.85rem; color: #aaa; }
+        
+        .check-btn { background: #2a2a2a; border: 2px solid #444; color: transparent; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; font-size: 1.2rem; }
+        .completed .check-btn { background: var(--green); border-color: var(--green); color: white; }
+
+        .yt-link { display: flex; align-items: center; justify-content: center; background: #333; color: #fff; text-align: center; padding: 10px; border-radius: 8px; text-decoration: none; margin-top: 15px; font-size: 0.85rem; font-weight: bold; transition: background 0.2s; }
+        .yt-link:active { background: #444; }
+        
+        #treino-a .card { border-left-color: var(--blue); }
+        #treino-b .card { border-left-color: var(--red); }
+        #treino-c .card { border-left-color: var(--green); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <p style="font-size: 0.7rem; color: #888; margin-bottom: 5px;">DESCANSO</p>
+        <div id="timer-display">01:00</div>
+        <button class="timer-btn" onclick="startTimer(60)">60s</button>
+        <button class="timer-btn" onclick="startTimer(90)">90s</button>
+        <button class="timer-btn" onclick="resetTimer()" style="color: var(--red);">Reset</button>
+    </header>
+
+    <div id="main-content">
+        <div id="treino-a" class="tab-content active">
+            <h2 style="color: var(--blue); margin-bottom:20px;">🔵 A: Peito, Ombro e Tríceps</h2>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Supino Inclinado Máquina</h3><p>4 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=supino+inclinado+maquina+execucao+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Supino Reto Halteres</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=supino+reto+com+halteres+execucao+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Crucifixo Máquina</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=crucifixo+maquina+peck+deck+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Elevação Lateral Halteres</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=elevacao+lateral+halteres+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Elevação Frontal Halteres</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=elevacao+frontal+halteres+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Tríceps Corda (Polia)</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=triceps+corda+polia+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Tríceps Testa (Polia)</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=triceps+testa+polia+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+        </div>
+
+        <div id="treino-b" class="tab-content">
+            <h2 style="color: var(--red); margin-bottom:20px;">🔴 B: Costas e Bíceps</h2>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Puxada Alta</h3><p>4 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=puxada+alta+pronada+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Remada Unilateral Halteres</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=remada+unilateral+halteres+serrote+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Remada Baixa Triângulo</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=remada+baixa+triangulo+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Pulldown (Polia)</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=pulldown+polia+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Desenvolvimento Máquina</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=desenvolvimento+ombros+maquina+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Bíceps Scott</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=biceps+scott+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Bíceps Martelo Corda</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=biceps+martelo+corda+polia+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+        </div>
+
+        <div id="treino-c" class="tab-content">
+            <h2 style="color: var(--green); margin-bottom:20px;">🟢 C: Pernas Completo</h2>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Leg Press</h3><p>4 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=leg+press+45+execucao+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Agachamento Smith</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=agachamento+smith+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Cadeira Extensora</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=cadeira+extensora+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Cadeira Flexora</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=cadeira+flexora+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Mesa Flexora</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=mesa+flexora+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Cadeira Adutora</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=cadeira+adutora+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Cadeira Abdutora</h3><p>3 Séries | 12-15 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=cadeira+abdutora+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+            
+            <div class="card"><div class="card-header"><div class="exercise-info"><h3>Panturrilha Máquina</h3><p>3 Séries | 15-20 Reps</p></div><button class="check-btn" onclick="toggleComplete(this)">✓</button></div><a href="https://www.youtube.com/results?search_query=panturrilha+maquina+shorts" target="_blank" class="yt-link">🎬 Ver Vídeo</a></div>
+        </div>
+    </div>
+
+    <nav class="tabs">
+        <button class="tab-btn btn-a active" onclick="openTab('treino-a', this)"><span>🔵</span>Treino A</button>
+        <button class="tab-btn btn-b" onclick="openTab('treino-b', this)"><span>🔴</span>Treino B</button>
+        <button class="tab-btn btn-c" onclick="openTab('treino-c', this)"><span>🟢</span>Treino C</button>
+    </nav>
+
+    <script>
+        function openTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function toggleComplete(btn) {
+            btn.closest('.card').classList.toggle('completed');
+        }
+
+        let timer;
+        function startTimer(seconds) {
+            clearInterval(timer);
+            let timeLeft = seconds;
+            const display = document.getElementById('timer-display');
+            
+            timer = setInterval(() => {
+                let mins = Math.floor(timeLeft / 60);
+                let secs = timeLeft % 60;
+                display.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    display.innerText = "TREINE!";
+                    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            document.getElementById('timer-display').innerText = "01:00";
+        }
+    </script>
+</body>
+</html>
