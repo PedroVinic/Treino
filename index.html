@@ -3,122 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Meu Treino - Oficial</title>
+    <title>Treino Pro - ReVanced Edition</title>
     <style>
-        :root { --blue: #007bff; --red: #dc3545; --green: #28a745; --dark: #000; --card: #111; }
+        :root { --blue: #007bff; --red: #dc3545; --green: #28a745; --dark: #0a0a0a; --card: #161616; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--dark); color: #fff; padding-bottom: 100px; }
         
-        header { background: #000; padding: 20px; text-align: center; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
-        #timer-display { font-size: 2.8rem; font-weight: bold; color: var(--green); margin-bottom: 10px; font-family: 'Courier New', Courier, monospace; }
-        .timer-btn { background: #222; color: white; border: 1px solid #333; padding: 12px 20px; border-radius: 8px; font-weight: bold; margin: 0 5px; }
+        header { background: #111; padding: 15px; text-align: center; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
+        #timer-display { font-size: 2.5rem; font-weight: bold; color: var(--green); margin: 5px 0; font-family: monospace; }
+        .timer-btn { background: #222; color: white; border: 1px solid #333; padding: 10px 18px; border-radius: 8px; font-weight: bold; margin: 0 4px; }
 
-        .tabs { position: fixed; bottom: 0; width: 100%; display: flex; background: #000; border-top: 1px solid #222; height: 80px; z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-        .tab-btn { flex: 1; border: none; background: none; color: #444; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
+        .tabs { position: fixed; bottom: 0; width: 100%; display: flex; background: #111; border-top: 1px solid #222; height: 75px; z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
+        .tab-btn { flex: 1; border: none; background: none; color: #555; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold; }
         .tab-btn.active { color: #fff; }
         .tab-btn.active.btn-a { border-top: 4px solid var(--blue); }
         .tab-btn.active.btn-b { border-top: 4px solid var(--red); }
         .tab-btn.active.btn-c { border-top: 4px solid var(--green); }
 
-        .tab-content { display: none; padding: 20px; }
+        .tab-content { display: none; padding: 20px; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .card { background: var(--card); border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #222; }
-        .card.completed { opacity: 0.15; filter: grayscale(1); }
+        .card { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; border-left: 5px solid #333; }
+        .card.completed { opacity: 0.2; filter: grayscale(1); }
         .card-header { display: flex; justify-content: space-between; align-items: center; }
-        .ex-title { font-size: 1.1rem; font-weight: bold; }
+        .ex-title { font-size: 1rem; font-weight: bold; }
         
-        .check-box { width: 32px; height: 32px; border-radius: 8px; border: 2px solid #333; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .completed .check-box { background: var(--green); border-color: var(--green); }
+        .check { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #444; display: flex; align-items: center; justify-content: center; color: transparent; }
+        .completed .check { background: var(--green); border-color: var(--green); color: white; }
 
-        .btn-yt { display: block; background: #f00; color: white; text-align: center; padding: 15px; border-radius: 10px; text-decoration: none; margin-top: 15px; font-size: 0.9rem; font-weight: bold; border: none; width: 100%; }
+        .btn-video { display: block; background: #cc0000; color: white; text-align: center; padding: 12px; border-radius: 8px; text-decoration: none; margin-top: 15px; font-size: 0.85rem; font-weight: bold; border: none; width: 100%; }
     </style>
 </head>
 <body>
 
     <header>
         <div id="timer-display">01:00</div>
-        <button class="timer-btn" onclick="runTimer(60)">60s</button>
-        <button class="timer-btn" onclick="runTimer(90)">90s</button>
-        <button class="timer-btn" onclick="resetTimer()" style="color:#f00">Reset</button>
+        <div style="display: flex; justify-content: center; gap: 5px;">
+            <button class="timer-btn" onclick="startTimer(60)">60s</button>
+            <button class="timer-btn" onclick="startTimer(90)">90s</button>
+            <button class="timer-btn" onclick="resetTimer()" style="color:#666">Reset</button>
+        </div>
     </header>
 
     <div id="main-content">
-        <div id="treino-a" class="tab-content active"><h2 style="color:var(--blue); margin-bottom:20px">🔵 Treino A</h2><div id="cont-a"></div></div>
-        <div id="treino-b" class="tab-content"><h2 style="color:var(--red); margin-bottom:20px">🔴 Treino B</h2><div id="cont-b"></div></div>
-        <div id="treino-c" class="tab-content"><h2 style="color:var(--green); margin-bottom:20px">🟢 Treino C</h2><div id="cont-c"></div></div>
+        <div id="treino-a" class="tab-content active"><h2 style="color:var(--blue); margin-bottom:15px">🔵 Treino A</h2><div id="list-a"></div></div>
+        <div id="treino-b" class="tab-content"><h2 style="color:var(--red); margin-bottom:15px">🔴 Treino B</h2><div id="list-b"></div></div>
+        <div id="treino-c" class="tab-content"><h2 style="color:var(--green); margin-bottom:15px">🟢 Treino C</h2><div id="list-c"></div></div>
     </div>
 
     <nav class="tabs">
-        <button class="tab-btn btn-a active" onclick="tab('treino-a', this)"><span>A</span>PEITO/OMB/TRI</button>
-        <button class="tab-btn btn-b" onclick="tab('treino-b', this)"><span>B</span>COSTAS/BICEPS</button>
-        <button class="tab-btn btn-c" onclick="tab('treino-c', this)"><span>C</span>PERNAS</button>
+        <button class="tab-btn btn-a active" onclick="openTab('treino-a', this)"><span>A</span>PEITO/OMB/TRI</button>
+        <button class="tab-btn btn-b" onclick="openTab('treino-b', this)"><span>B</span>COSTAS/BICEPS</button>
+        <button class="tab-btn btn-c" onclick="openTab('treino-c', this)"><span>C</span>PERNAS</button>
     </nav>
 
     <script>
-        const data = {
+        const treinos = {
             a: ["Supino Inclinado Máquina", "Supino Reto Halteres", "Crucifixo Máquina", "Elevação Lateral", "Elevação Frontal", "Tríceps Corda", "Tríceps Testa"],
             b: ["Puxada Alta", "Remada Unilateral", "Remada Baixa Triângulo", "Pulldown Polia", "Desenvolvimento Máquina", "Bíceps Scott", "Bíceps Martelo"],
-            c: ["Leg Press", "Agachamento Smith", "Cadeira Extensora", "Cadeira Flexora", "Mesa Flexora", "Cadeira Adutora", "Cadeira Abdutora", "Panturrilha"]
+            c: ["Leg Press", "Agachamento Smith", "Cadeira Extensora", "Cadeira Flexora", "Mesa Flexora", "Cadeira Adutora", "Cadeira Abdutora", "Panturrilha Máquina"]
         };
 
-        function build() {
+        function render() {
             ['a','b','c'].forEach(t => {
-                const el = document.getElementById(`cont-${t}`);
-                data[t].forEach(ex => {
-                    el.innerHTML += `
+                const container = document.getElementById(`list-${t}`);
+                treinos[t].forEach(ex => {
+                    container.innerHTML += `
                         <div class="card">
                             <div class="card-header">
-                                <div class="ex-title">${ex}</div>
-                                <div class="check-box" onclick="done(this)">✓</div>
+                                <div class="exercise-info">
+                                    <div class="ex-title">${ex}</div>
+                                    <div class="ex-meta">12-15 Reps</div>
+                                </div>
+                                <div class="check" onclick="toggle(this)">✓</div>
                             </div>
-                            <button class="btn-yt" onclick="openApp('${ex}')">ABRIR NO APP YOUTUBE</button>
+                            <button class="btn-video" onclick="watchVideo('${ex}')">ABRIR NO REVANCED</button>
                         </div>
                     `;
                 });
             });
         }
 
-        function openApp(name) {
-            const query = encodeURIComponent(name + " execução academia");
-            const isAndroid = /Android/i.test(navigator.userAgent);
+        function watchVideo(name) {
+            const query = encodeURIComponent(name + " execucao academia");
+            
+            // Tenta abrir especificamente o ReVanced pelo nome do pacote
+            const revancedIntent = `intent://www.youtube.com/results?search_query=${query}#Intent;package=app.revanced.android.youtube;scheme=https;end;`;
+            
+            // Fallback para o YouTube original se o ReVanced falhar
+            const youtubeIntent = `intent://www.youtube.com/results?search_query=${query}#Intent;package=com.google.android.youtube;scheme=https;end;`;
 
-            // LINK ESTRETO: Não tem fallback de navegador. 
-            // Se o app não abrir, nada acontece.
-            if (isAndroid) {
-                // Formato de Intent para Android (Força o Aplicativo)
-                window.location.replace(`intent://www.youtube.com/results?search_query=${query}#Intent;package=com.google.android.youtube;scheme=https;end;`);
-            } else {
-                // Formato para iPhone (Protocolo do Aplicativo)
-                window.location.replace(`youtube://www.youtube.com/results?search_query=${query}`);
-            }
+            window.location.replace(revancedIntent);
+
+            // Pequeno atraso: se o ReVanced não abrir, tenta o original
+            setTimeout(() => {
+                window.location.replace(youtubeIntent);
+            }, 500);
         }
 
-        function tab(id, b) {
-            document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(x => x.classList.remove('active'));
+        function openTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            b.classList.add('active');
-            window.scrollTo(0,0);
+            btn.classList.add('active');
         }
 
-        function done(el) { el.closest('.card').classList.toggle('completed'); }
+        function toggle(el) { el.closest('.card').classList.toggle('completed'); }
 
-        let t;
-        function runTimer(s) {
-            clearInterval(t);
-            let c = s;
+        let timer;
+        function startTimer(s) {
+            clearInterval(timer);
+            let time = s;
             const d = document.getElementById('timer-display');
-            t = setInterval(() => {
-                let m = Math.floor(c/60), s = c%60;
-                d.innerText = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-                if(c <= 0) { clearInterval(t); d.innerText = "TREINE!"; if(navigator.vibrate) navigator.vibrate(200); }
-                c--;
+            timer = setInterval(() => {
+                let min = Math.floor(time/60), sec = time%60;
+                d.innerText = `${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+                if(time <= 0) { clearInterval(timer); d.innerText = "TREINE!"; if(navigator.vibrate) navigator.vibrate(200); }
+                time--;
             }, 1000);
         }
-        function resetTimer() { clearInterval(t); document.getElementById('timer-display').innerText = "01:00"; }
+        function resetTimer() { clearInterval(timer); document.getElementById('timer-display').innerText = "01:00"; }
 
-        build();
+        render();
     </script>
 </body>
 </html>
