@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Treino Pro - ReVanced Edition</title>
+    <title>Meu Treino Pro</title>
     <style>
         :root { --blue: #007bff; --red: #dc3545; --green: #28a745; --dark: #0a0a0a; --card: #161616; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="check" onclick="toggle(this)">✓</div>
                             </div>
-                            <button class="btn-video" onclick="watchVideo('${ex}')">ABRIR NO REVANCED</button>
+                            <button class="btn-video" onclick="watchVideo('${ex}')">VER EXECUÇÃO NO APP</button>
                         </div>
                     `;
                 });
@@ -86,20 +86,14 @@
         }
 
         function watchVideo(name) {
-            const query = encodeURIComponent(name + " execucao academia");
+            const query = encodeURIComponent(name + " execucao rapida academia");
             
-            // Tenta abrir especificamente o ReVanced pelo nome do pacote
-            const revancedIntent = `intent://www.youtube.com/results?search_query=${query}#Intent;package=app.revanced.android.youtube;scheme=https;end;`;
-            
-            // Fallback para o YouTube original se o ReVanced falhar
-            const youtubeIntent = `intent://www.youtube.com/results?search_query=${query}#Intent;package=com.google.android.youtube;scheme=https;end;`;
+            // INTENT GENÉRICO: Ele não força um aplicativo específico.
+            // Ele diz ao Android: "Abra um app que entenda links do YouTube".
+            const genericIntent = `intent://www.youtube.com/results?search_query=${query}#Intent;scheme=https;end;`;
 
-            window.location.replace(revancedIntent);
-
-            // Pequeno atraso: se o ReVanced não abrir, tenta o original
-            setTimeout(() => {
-                window.location.replace(youtubeIntent);
-            }, 500);
+            // Tenta disparar o Intent genérico
+            window.location.href = genericIntent;
         }
 
         function openTab(id, btn) {
